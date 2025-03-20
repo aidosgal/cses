@@ -111,5 +111,25 @@ std::vector<int> Solution::productExceptSelf(std::vector<int>& nums) {
 }
 
 bool Solution::isValidSudoku(std::vector<std::vector<char>>& board) {
-    return false;
+    std::map<std::pair<int, int>, std::unordered_set<char>> sq;
+    std::unordered_map<int, std::unordered_set<char>> rows, cols;
+    
+    for (int i = 0; i < board.size(); i++) {
+        for (int j = 0; j < board[i].size(); j++) {
+            if (board[i][j] == '.') {
+                continue;
+            }
+
+            std::pair<int, int> sqk = {i/3, j/3};
+
+            if (rows[i].count(board[i][j]) || cols[j].count(board[i][j]) || sq[sqk].count(board[i][j])) {
+                return false;
+            }
+            
+            rows[i].insert(board[i][j]);
+            cols[j].insert(board[i][j]);
+            sq[sqk].insert(board[i][j]);
+        }
+    }
+    return true;
 }
