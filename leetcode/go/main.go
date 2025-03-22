@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"sort"
 	"unicode"
 )
@@ -219,5 +220,46 @@ func search(nums []int, target int) int {
 }
 
 func searchMatrix(matrix [][]int, target int) bool {
-    return false
+	rows, cols := len(matrix), len(matrix[0])
+	l, r := 0, rows*cols-1
+
+	for l <= r {
+		m := l + (r-l)/2
+		row, col := m / cols, m % cols
+
+		if matrix[row][col] == target {
+			return true
+		} else if matrix[row][col] < target {
+			l = m + 1
+		} else {
+			r = m - 1
+		}
+	}
+	
+	return false
+}
+
+func minEatingSpeed(piles []int, h int) int {
+	l, r := 1, 1
+	for _, p := range piles {
+		if p > r {
+			r = p
+		}
+	}
+	ans := r
+
+	for l <= r {
+		mid := (l + r) / 2
+		k := 0
+		for _, p := range piles {
+			k += int(math.Ceil(float64(p) / float64(mid)))
+		}
+		if k > h {
+			l = mid + 1
+		} else {
+			ans = mid
+			r = mid - 1
+		}
+	}
+    return ans
 }
