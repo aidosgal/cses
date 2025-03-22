@@ -1,11 +1,25 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+	"unicode"
+)
+
+type stack []interface{}
+
+func (s stack) Push(v interface{}) stack {
+	return append(s, v)
+}
+
+func (s stack) Pop() (stack, interface{}) {
+	l := len(s)
+	return s[:l-1], s[l-1]
+}
 
 func main() {
-	nums := []int{100, 4, 200, 1, 3, 2}
-
-	fmt.Println(longestConsecutive(nums))
+	s := "()[]{}"
+	fmt.Println(isValid(s))
 }
 
 func longestConsecutive(nums []int) int {
@@ -15,13 +29,13 @@ func longestConsecutive(nums []int) int {
 	}
 
 	max := 0
-	for num := range set{
+	for num := range set {
 		if !set[num-1] {
-            c := num
+			c := num
 			len := 1
 			for set[c+1] {
-                c++
-                len++
+				c++
+				len++
 			}
 
 			if max < len {
@@ -29,5 +43,128 @@ func longestConsecutive(nums []int) int {
 			}
 		}
 	}
+	return max
+}
+
+func isValid(s string) bool {
+	st := stack{}
+	maping := map[rune]rune{')': '(', ']': '[', '}': '{'}
+
+	for _, c := range s {
+		if open, exists := maping[c]; exists {
+			if len(st) > 0 {
+				_, top := st.Pop()
+				if top.(rune) != open {
+					return false
+				}
+			} else {
+				return false
+			}
+		} else {
+			st.Push(c)
+		}
+	}
+
+	return !(len(st) > 0)
+}
+
+func isPalindrome(s string) bool {
+	l, r := 0, len(s)-1
+	for l < r {
+		for l < r && !isAlpaNum(rune(s[l])) {
+			l++
+		}
+		for r > l && !isAlpaNum(rune(s[l])) {
+			r++
+		}
+		if unicode.ToLower(rune(s[l])) != unicode.ToLower(rune(s[r])) {
+			return false
+		}
+		l++
+		r--
+	}
+	return true
+}
+
+func isAlpaNum(c rune) bool {
+	return unicode.IsLetter(c) || unicode.IsDigit(c)
+}
+
+func twoSum(numbers []int, target int) []int {
+	l, r := 0, len(numbers)-1
+
+	for l < r {
+		if (numbers[l] + numbers[r]) > target {
+			r--
+		} else if (numbers[l] + numbers[r]) < target {
+			l++
+		} else {
+			return []int{l+1, r+1}
+		}
+	}
+
+	return []int{}
+}
+
+func threeSum(nums []int) [][]int {
+    sort.Ints(nums)
+	res := [][]int{}
+
+	for i := 0; i < len(nums); i++ {
+		target := nums[i]
+
+		if target > 0 {
+			break
+        }
+		
+        if i > 0 && target == nums[i-1] {
+            continue
+        }
+		
+		l, r := i+1, len(nums) - 1
+		for l < r {
+			sum := target + nums[l] + nums[r]
+			if sum > 0 {
+				r--
+			} else if sum < 0 {
+				l++
+			} else {
+				res = append(res, []int{target, nums[l], nums[r]})
+				l++
+				r--
+				for l < r && nums[l] == nums[l-1] {
+                    l++
+                }
+			}
+		}
+	}
+
+	return res
+}
+
+func maxArea(height []int) int {
+    l, r := 0, len(height) - 1
+	max := 0
+	for l < r {
+		var m int
+		if height[l] < height[r] {
+			m = height[l]
+		} else {
+			m = height[r]
+		}
+		
+		area := (r - l) * m
+
+		if area > max {
+			max = area
+		}
+		
+		if height[l] <= height[r] {
+            l++
+        } else {
+            r--
+        }
+	}
+
 	return max
 }
