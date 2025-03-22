@@ -168,3 +168,56 @@ func maxArea(height []int) int {
 
 	return max
 }
+
+func trap(height []int) int {
+    l, r := 0, len(height)-1
+	maxL, maxR := height[l], height[r]
+	ans := 0
+
+	for l < r {
+		var val int
+		if maxL > maxR {
+			val = maxR - height[r]
+			r--
+			if height[r] > maxR {
+				maxR = height[r]
+			}
+		} else {
+			val = maxL - height[l]
+			l++
+			if height[l] > maxL {
+				maxL = height[l]
+			}
+		}
+
+		if val < 0 {
+			val = 0
+		}
+
+		ans += val
+	}
+
+	return ans
+}
+
+func search(nums []int, target int) int {
+	l, r := 0, len(nums)-1
+	ans := -1
+
+	for l < r {
+		mid := l + (r-l)/2
+		if nums[mid] < target {
+			l = mid + 1
+		} else if nums[mid] > target {
+			r = mid - 1
+		} else {
+			return mid
+		}
+	}
+
+	return ans
+}
+
+func searchMatrix(matrix [][]int, target int) bool {
+    return false
+}
