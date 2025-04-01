@@ -395,3 +395,50 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 
     return dummy.Next
 }
+
+func nthSuperUglyNumber(n int, primes []int) int {
+	return 0
+}
+
+func reverseList(head *ListNode) *ListNode {
+	return nil
+}
+
+func putMarbles(weights []int, k int) int64 {
+    return 0 
+}
+
+func mostPoints(questions [][]int) int64 {
+	length := len(questions)
+	dp := make([]int64, length)
+	dp[length - 1] = int64(questions[length-1][0])
+	for i := length-2; i >= 0; i-- {
+		dp[i] = solve(questions, i, dp)
+	}
+
+	var max int64
+	for _, p := range dp {
+		if p > max {
+			max = p
+		}
+	}
+	
+    return max
+}
+
+func solve(questions [][]int, start int, dp []int64) int64 {
+	i := start
+	var points int64
+	points = int64(questions[i][0])
+	if questions[i][1] + 1 + i < len(questions) {
+		points = points + dp[questions[i][1] + 1 + i]
+	}
+	return max(points, dp[start+1])
+}
+
+func max(a, b int64) int64 {
+	if a > b {
+		return a
+	}
+	return b
+}
