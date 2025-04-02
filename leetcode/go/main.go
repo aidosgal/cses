@@ -489,3 +489,47 @@ func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
 
 	return dummy.Next
 }
+
+func hasCycle(head *ListNode) bool {
+	fast := head
+	slow := head
+	for fast != nil && fast.Next != nil {
+		slow = slow.Next
+		fast = fast.Next.Next
+		if slow == fast {
+			return true
+		}
+	}
+    return false
+}
+
+func reorderList(head *ListNode)  {
+	if head == nil || head.Next == nil {
+		return
+	}
+
+	slow, fast := head, head.Next
+	for fast != nil && fast.Next != nil {
+		slow = slow.Next
+		fast = fast.Next.Next
+	}
+
+	second := slow.Next
+	slow.Next = nil
+	var prev *ListNode
+	for second != nil {
+		tmp := second.Next
+		second.Next = prev
+		prev = second
+		second = tmp
+	}
+
+	first := head
+	second = prev
+	for second != nil {
+		tmp1, tmp2 := first.Next, second.Next
+		first.Next = second
+		second.Next = tmp1
+		first, second = tmp1, tmp2
+	}
+}
