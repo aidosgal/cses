@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"math"
-	"unicode"
 	"sort"
+	"unicode"
 )
 
 type stack []interface{}
@@ -100,7 +100,7 @@ func twoSum(numbers []int, target int) []int {
 		} else if (numbers[l] + numbers[r]) < target {
 			l++
 		} else {
-			return []int{l+1, r+1}
+			return []int{l + 1, r + 1}
 		}
 	}
 
@@ -108,7 +108,7 @@ func twoSum(numbers []int, target int) []int {
 }
 
 func threeSum(nums []int) [][]int {
-    sort.Ints(nums)
+	sort.Ints(nums)
 	res := [][]int{}
 
 	for i := 0; i < len(nums); i++ {
@@ -116,13 +116,13 @@ func threeSum(nums []int) [][]int {
 
 		if target > 0 {
 			break
-        }
-		
-        if i > 0 && target == nums[i-1] {
-            continue
-        }
-		
-		l, r := i+1, len(nums) - 1
+		}
+
+		if i > 0 && target == nums[i-1] {
+			continue
+		}
+
+		l, r := i+1, len(nums)-1
 		for l < r {
 			sum := target + nums[l] + nums[r]
 			if sum > 0 {
@@ -134,8 +134,8 @@ func threeSum(nums []int) [][]int {
 				l++
 				r--
 				for l < r && nums[l] == nums[l-1] {
-                    l++
-                }
+					l++
+				}
 			}
 		}
 	}
@@ -144,7 +144,7 @@ func threeSum(nums []int) [][]int {
 }
 
 func maxArea(height []int) int {
-    l, r := 0, len(height) - 1
+	l, r := 0, len(height)-1
 	max := 0
 	for l < r {
 		var m int
@@ -153,25 +153,25 @@ func maxArea(height []int) int {
 		} else {
 			m = height[r]
 		}
-		
+
 		area := (r - l) * m
 
 		if area > max {
 			max = area
 		}
-		
+
 		if height[l] <= height[r] {
-            l++
-        } else {
-            r--
-        }
+			l++
+		} else {
+			r--
+		}
 	}
 
 	return max
 }
 
 func trap(height []int) int {
-    l, r := 0, len(height)-1
+	l, r := 0, len(height)-1
 	maxL, maxR := height[l], height[r]
 	ans := 0
 
@@ -225,7 +225,7 @@ func searchMatrix(matrix [][]int, target int) bool {
 
 	for l <= r {
 		m := l + (r-l)/2
-		row, col := m / cols, m % cols
+		row, col := m/cols, m%cols
 
 		if matrix[row][col] == target {
 			return true
@@ -235,7 +235,7 @@ func searchMatrix(matrix [][]int, target int) bool {
 			r = m - 1
 		}
 	}
-	
+
 	return false
 }
 
@@ -261,24 +261,24 @@ func minEatingSpeed(piles []int, h int) int {
 			r = mid - 1
 		}
 	}
-    return ans
+	return ans
 }
 
 func findMin(nums []int) int {
 	ans := nums[0]
-	l, r := 0, len(nums) - 1
+	l, r := 0, len(nums)-1
 	for l <= r {
 		if nums[l] < nums[r] {
 			if nums[l] < ans {
 				ans = nums[l]
 				break
 			}
-			
-			mid := (r+l)/2
+
+			mid := (r + l) / 2
 			if ans > nums[mid] {
 				ans = nums[mid]
 			}
-			
+
 			if nums[mid] >= nums[l] {
 				l = mid + 1
 			} else {
@@ -293,7 +293,7 @@ func searchRotatedArray(nums []int, target int) int {
 	l, r := 0, len(nums)-1
 
 	for l <= r {
-		mid := (l + r)/2
+		mid := (l + r) / 2
 		if target == nums[mid] {
 			return mid
 		}
@@ -320,7 +320,7 @@ type TimeMap struct {
 }
 
 type pair struct {
-	time int
+	time  int
 	value string
 }
 
@@ -330,8 +330,7 @@ func Constructor() TimeMap {
 	}
 }
 
-
-func (this *TimeMap) Set(key string, value string, timestamp int)  {
+func (this *TimeMap) Set(key string, value string, timestamp int) {
 	this.m[key] = append(this.m[key], pair{value: value, time: timestamp})
 }
 
@@ -345,7 +344,7 @@ func (this *TimeMap) Get(key string, timestamp int) string {
 	l, r := 0, len(pairs)-1
 
 	for l <= r {
-		mid := (l + r)/2
+		mid := (l + r) / 2
 		if pairs[mid].time <= timestamp {
 			if mid == len(pairs)-1 || pairs[mid+1].time > timestamp {
 				return pairs[mid].value
@@ -366,34 +365,34 @@ func (this *TimeMap) Get(key string, timestamp int) string {
  */
 
 type ListNode struct {
-	Val int
+	Val  int
 	Next *ListNode
 }
 
 func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
-    dummy := &ListNode{}
-    current := dummy
-    carry := 0
+	dummy := &ListNode{}
+	current := dummy
+	carry := 0
 
-    for l1 != nil || l2 != nil || carry != 0 {
-        val1, val2 := 0, 0
-        if l1 != nil {
-            val1 = l1.Val
-            l1 = l1.Next
-        }
-        if l2 != nil {
-            val2 = l2.Val
-            l2 = l2.Next
-        }
+	for l1 != nil || l2 != nil || carry != 0 {
+		val1, val2 := 0, 0
+		if l1 != nil {
+			val1 = l1.Val
+			l1 = l1.Next
+		}
+		if l2 != nil {
+			val2 = l2.Val
+			l2 = l2.Next
+		}
 
-        sum := val1 + val2 + carry
-        carry = sum / 10
+		sum := val1 + val2 + carry
+		carry = sum / 10
 
-        current.Next = &ListNode{Val: sum % 10}
-        current = current.Next
-    }
+		current.Next = &ListNode{Val: sum % 10}
+		current = current.Next
+	}
 
-    return dummy.Next
+	return dummy.Next
 }
 
 func nthSuperUglyNumber(n int, primes []int) int {
@@ -405,14 +404,14 @@ func reverseList(head *ListNode) *ListNode {
 }
 
 func putMarbles(weights []int, k int) int64 {
-    return 0 
+	return 0
 }
 
 func mostPoints(questions [][]int) int64 {
 	length := len(questions)
 	dp := make([]int64, length)
-	dp[length - 1] = int64(questions[length-1][0])
-	for i := length-2; i >= 0; i-- {
+	dp[length-1] = int64(questions[length-1][0])
+	for i := length - 2; i >= 0; i-- {
 		dp[i] = solve(questions, i, dp)
 	}
 
@@ -422,16 +421,16 @@ func mostPoints(questions [][]int) int64 {
 			max = p
 		}
 	}
-	
-    return max
+
+	return max
 }
 
 func solve(questions [][]int, start int, dp []int64) int64 {
 	i := start
 	var points int64
 	points = int64(questions[i][0])
-	if questions[i][1] + 1 + i < len(questions) {
-		points = points + dp[questions[i][1] + 1 + i]
+	if questions[i][1]+1+i < len(questions) {
+		points = points + dp[questions[i][1]+1+i]
 	}
 	return max(points, dp[start+1])
 }
@@ -441,4 +440,22 @@ func max(a, b int64) int64 {
 		return a
 	}
 	return b
+}
+
+func maximumTripletValue(nums []int) int64 {
+	var a, b, c int
+
+	for _, num := range nums {
+		if num > a {
+			a = num
+		}
+		if a-num > b {
+			b = a - num
+		}
+		if b*num > c {
+			c = b * num
+		}
+	}
+
+	return int64(c)
 }
