@@ -533,3 +533,27 @@ func reorderList(head *ListNode)  {
 		first, second = tmp1, tmp2
 	}
 }
+
+func removeNthFromEnd(head *ListNode, n int) *ListNode {
+	N := 0
+	curr := head
+	for curr != nil {
+		N++
+		curr = curr.Next
+	}
+
+	index := N - n
+	if index == 0 {
+		return head.Next
+	}
+
+	curr = head
+	for i := 0; i < N - 1; i++ {
+		if (i + 1) == index {
+			curr.Next = curr.Next.Next
+			break
+		}
+		curr = curr.Next
+	}
+	return head
+}
