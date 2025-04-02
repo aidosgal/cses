@@ -400,7 +400,14 @@ func nthSuperUglyNumber(n int, primes []int) int {
 }
 
 func reverseList(head *ListNode) *ListNode {
-	return nil
+	var rev *ListNode
+	for head != nil {
+		temp := head.Next
+		head.Next = rev
+		rev = head
+		head = temp
+	}
+	return rev
 }
 
 func putMarbles(weights []int, k int) int64 {
@@ -458,4 +465,27 @@ func maximumTripletValue(nums []int) int64 {
 	}
 
 	return int64(c)
+}
+
+func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
+	dummy := &ListNode{}
+	list := dummy
+	
+	for list1 != nil && list2 != nil {
+		if list1.Val > list2.Val {
+			list.Next = list2
+			list2 = list2.Next
+		} else {
+			list.Next = list1
+			list1 = list1.Next
+		}
+
+		list = list.Next
+	}
+	list.Next = list1
+	if list1 == nil {
+		list.Next = list2
+	}
+
+	return dummy.Next
 }
