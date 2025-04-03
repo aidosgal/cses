@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"math"
 	"sort"
+	"strconv"
+	"strings"
 	"unicode"
 )
 
@@ -19,8 +21,8 @@ func (s stack) Pop() (stack, interface{}) {
 }
 
 func main() {
-	s := "()[]{}"
-	fmt.Println(isValid(s))
+	s := []string{"00:00","23:59","00:00"}
+	fmt.Println(findMinDifference(s))
 }
 
 func longestConsecutive(nums []int) int {
@@ -449,22 +451,35 @@ func max(a, b int64) int64 {
 	return b
 }
 
-func maximumTripletValue(nums []int) int64 {
-	var a, b, c int
-
-	for _, num := range nums {
-		if num > a {
-			a = num
-		}
-		if a-num > b {
-			b = a - num
-		}
-		if b*num > c {
-			c = b * num
-		}
-	}
-
-	return int64(c)
+func maximumTripletValue(nums []int) int64 {	
+	n := len(nums)
+    if n < 3 {
+        return 0
+    }
+    
+    maxVal := 0
+    maxLeft := nums[0]
+    maxDiff := 0
+    
+    for k := 2; k < n; k++ {
+        if maxLeft - nums[k-1] > maxDiff {
+            maxDiff = maxLeft - nums[k-1]
+        }
+        
+        if nums[k-1] > maxLeft {
+            maxLeft = nums[k-1]
+        }
+        
+        current := maxDiff * nums[k]
+        if current > maxVal {
+            maxVal = current
+        }
+    }
+    
+    if maxVal < 0 {
+        return 0
+    }
+    return int64(maxVal)
 }
 
 func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
@@ -556,4 +571,36 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 		curr = curr.Next
 	}
 	return head
+}
+
+func findMinDifference(timePoints []string) int {
+	count := int(1e4)
+	times := make([]int, 0)
+
+	for _, timeStr := range timePoints {
+		hourStr := strings.Split(timeStr, ":")[0]
+		minuteStr := strings.Split(timeStr, ":")[1]
+
+		hour, _ := strconv.Atoi(hourStr)
+		minute, _ := strconv.Atoi(minuteStr)
+
+		if hour == 0 {
+			hour = 24
+		}
+
+		time := hour * 60 + minute
+		times = append(times, time)
+	}
+	
+	for i := 0; i < len(times); i++ {
+		for j := 0; j < len(times); j++ {
+			diff := int(math.Abs(float64(times[i] - times[j])))
+			fmt.Println(count, diff)
+			if count > diff && i != j{
+				count = diff
+			}
+		}
+	}
+
+	return count
 }
