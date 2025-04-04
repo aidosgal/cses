@@ -604,3 +604,37 @@ func findMinDifference(timePoints []string) int {
 
 	return count
 }
+
+type TreeNode struct {
+	Val int
+	Left *TreeNode
+	Right *TreeNode
+}
+
+func lcaDeepestLeaves(root *TreeNode) *TreeNode {
+	var dfs func(node *TreeNode) (int, *TreeNode)
+	dfs = func(node *TreeNode) (int, *TreeNode) {
+		if node == nil {
+			return 0, nil
+		} 
+		if node.Left == nil && node.Right == nil {
+			return 1, node
+		}
+
+		deepestLevelLeft, lcaLeft := dfs(node.Left)
+		deepestLevelRight, lcaRight := dfs(node.Right)
+		if deepestLevelLeft == deepestLevelRight {
+			return deepestLevelLeft + 1, node
+		}
+		if deepestLevelLeft > deepestLevelRight {
+			return deepestLevelLeft + 1, lcaLeft
+		}
+
+		return deepestLevelRight+1, lcaRight
+	}
+
+	_, rs := dfs(root)
+	return rs 
+}
+
+
