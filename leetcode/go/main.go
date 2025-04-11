@@ -637,4 +637,36 @@ func lcaDeepestLeaves(root *TreeNode) *TreeNode {
 	return rs 
 }
 
+func countSymmetricIntegers(low int, high int) int {
+	count := 0
+	for i := low; i <= high; i++ {
+		if isSymmetric(i) {
+			count++
+		}
+	}
+	return count
+}
 
+func isSymmetric(num int) bool {
+	numStr := strconv.Itoa(num)
+	if len(numStr) % 2 != 0 {
+		return false
+	}
+	count1 := 0
+	count2 := 0
+	for i, dStr := range numStr {
+		if i > len(numStr)/2 {
+			d, _ := strconv.Atoi(string(dStr))
+			count1 += d
+		} else {
+			d, _ := strconv.Atoi(string(dStr))
+			count2 += d
+		}
+	}
+
+	if count1 != count2 {
+		return false
+	}
+
+	return true
+}
