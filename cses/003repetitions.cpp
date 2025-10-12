@@ -8,12 +8,12 @@ int main(void) {
     int ans = 0;
     int c = 0;
     for (int i = 0; i < (int) n.size(); i++) {
-      if (i != 0 && n[i] == n[i-1]) {
-        c++;
-      } else {
-        ans = max(ans, c);
-        c = 1;
-      }
+        if (i != 0 && n[i] == n[i-1]) {
+            c++;
+        } else {
+            ans = max(ans, c);
+            c = 1;
+        }
     }
     ans = max(ans, c);
     cout << ans;
