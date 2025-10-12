@@ -1,23 +1,21 @@
-#include <iostream>
+#include <bits/stdc++.h>
+
+using namespace std;
 
 int main(void) {
-    std::string n;
-    std::cin >> n;
-    
+    string n;
+    cin >> n;
     int ans = 0;
-    int c = 1;
-    
-    for (int i = 0; i < n.length() - 1; i++){
-        if (n[i] == n[i+1]) {
-            c++;
-        } else {
-            c = 1;
-        }
-        if (c > ans) {
-            ans = c;
-        }
+    int c = 0;
+    for (int i = 0; i < (int) n.size(); i++) {
+      if (i != 0 && n[i] == n[i-1]) {
+        c++;
+      } else {
+        ans = max(ans, c);
+        c = 1;
+      }
     }
-
-    std::cout << ans;
+    ans = max(ans, c);
+    cout << ans;
     return 0;
 }
